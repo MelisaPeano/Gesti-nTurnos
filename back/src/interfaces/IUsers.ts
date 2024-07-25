@@ -1,8 +1,9 @@
-interface IUsers {
-    id: number;
+interface IUser {
     name: string;
     email: string;
-   active: boolean;
+   birthdate: string;
+   dni: number;
+   credential: number;
 }
 
-export default IUsers;
+export default IUser;
