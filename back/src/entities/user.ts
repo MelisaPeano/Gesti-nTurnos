@@ -8,6 +8,15 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number
 
+  @Column()
+  name: string
+
+  @Column()
+  email: string
+
+  @Column( {type: "timestamp"} )
+  birthdate: Date
+
   @Column("integer")
   dni: number
 
