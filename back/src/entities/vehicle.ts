@@ -1,25 +1,28 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, ManyToMany, ManyToOne } from "typeorm";
-import { User } from "./user";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, OneToOne } from "typeorm";
+import { User } from "./User";
 import { Servicio } from "./servicios";
 
 @Entity()
 
-
 export class Vehicle {
-
     @PrimaryGeneratedColumn()
     id: number
 
     @Column()
-    marca: string
+    brand: string
 
     @Column()
     year: number
 
+    @Column()
+    color : string
+
+    @Column()
+    model: string
+
     @ManyToOne(() => User, (userId: User) => userId.vehicles)
     user: User
 
-    @OneToOne(() => Servicio, (servicioId: Servicio) => servicioId.vehicle)
-    servicio: Servicio;
-    
+    @OneToOne(() => Servicio, (servicio) => servicio.vehicle) 
+    servicio: Servicio[];
 }

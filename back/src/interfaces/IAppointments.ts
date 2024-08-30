@@ -1,8 +1,10 @@
 interface IAppointment {
-    date : Date
-    time : number
-    userId : number
-    status : string
+    
+    date: Date;
+    time: number;
+    userId: string
+    status: string
+
 
 }
 

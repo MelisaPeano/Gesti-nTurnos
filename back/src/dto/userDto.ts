@@ -1,13 +1,10 @@
-import  IVehicleDto  from "../dto/IVehicle";
-
 interface IUserDto {
-    name: string,
-    email:string,
-    birthdate: string,
-    dni: number,
-    password: string,
-    username: string
-    vehicls: IVehicleDto
+    name: string;
+    email: string;
+    birthdate: string;
+    nDni: number;
+    username: string;
+    password: string;
 }
 
-export default IUserDto
+export default IUserDto;

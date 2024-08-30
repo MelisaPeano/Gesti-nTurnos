@@ -1,34 +1,47 @@
-import { Entity, Column, OneToOne, PrimaryGeneratedColumn, JoinColumn, OneToMany } from "typeorm";
-import { Credential } from "./Credentials";
-import { Appointment } from "./appointments";
-import { Vehicle } from "./vehicle";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn } from "typeorm";
+import { Appointment} from "./appointments";
+import { Credential } from "./credentials";
+import { Vehicle } from "./vehiculos";
 
-@Entity()
+@Entity({
+    name: "users"
+})
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number
+    @PrimaryGeneratedColumn()
+    id: number
 
-  @Column()
-  name: string
+    @Column({
+        length: 50,
+    })
+    name: string
 
-  @Column()
-  email: string
 
-  @Column( {type: "timestamp"} )
-  birthdate: Date
+    @Column()
+    email: string
 
-  @Column("integer")
-  dni: number
 
- @OneToOne(() => Credential, (credentialId: Credential) => credentialId.user) 
- @JoinColumn()
- credentialId: Credential
+    @Column()
+    birthdate: Date
 
- @OneToMany(() => Appointment, (appointment) => appointment.user)
- appointment: Appointment[];
 
- @OneToMany(()=> Vehicle, (vehicle) => vehicle.user)
- vehicles: Vehicle[];
+    @Column("integer")
+    nDni: number
 
-    
-}
+
+    @OneToOne(() => Credential, (credentialId) => credentialId.user)
+    @JoinColumn()
+    credentialId: Credential;
+
+    @OneToMany(() => Appointment, (appointment) => appointment.user)
+    appointment: Appointment[];
+
+    @OneToMany(() => Vehicle, (vehicle) => vehicle.user)
+    vehicles: Vehicle[];
+// voy a almacenar en la base de datos solo la ruta del archivo.
+    @Column({
+        type: "varchar",
+        length: 255, 
+        nullable: true, 
+    })
+    profilePicturePath: string;
+  }

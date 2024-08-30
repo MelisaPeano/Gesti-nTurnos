@@ -1,81 +1,82 @@
 import { Request, Response } from "express";
-import { appointmentsScheduleService, addAppointmentService, changeStatusMyAppointmentService, myAppointmentService } from "../services/appointmentsServices";
-import { catchAsync, catchAsync404 } from "../utils/catchAsync";
+import { appointmentsScheduleService, myAppointmentService, crearNewAppointmentService, changeStatusMyAppointmentService} from "../services/appointmentsServices";
+import IAppointmentDto from "../dto/appointmentsDto";
 import { AppDataSource } from "../config/data-source";
-import { User } from "../entities/user";
-import IAppointmentDto from "../dto/IAppointmentDto";
+import { User } from "../entities/User";
+import sendEmail from "../utils/sendEmail";
 
-const getAppointments = async (req: Request, res: Response) => {
-    const appointment= await appointmentsScheduleService();
-    res.status(200).json(appointment) 
 
+export const getAppointments = async( req: Request, res: Response) => {
+    const appointment = await appointmentsScheduleService();
+    return res.status(200).json(appointment);
 }
 
-const  myAppointment = async (req: Request, res: Response): Promise<void> => {
-    const { userId } = req.body;
-    if (!userId) {
-        res.status(400).json({ error: "userId is required" });
+export const myAppointment = async(req: Request, res: Response) => {
+   
+    const { id } = req.params;
+    const userId = parseInt(id, 10);
+
+    if(isNaN(userId) || !userId) {
+        console.log("id invalido")
+        res.status(400). json({message: "id invlido"})
         return;
     }
-    const myAppoint = await myAppointmentService(+userId);
-    res.status(200).json(myAppoint)
+    const myAppoint = await myAppointmentService(userId);
+    return res.status(200).json(myAppoint);
 }
 
 enum status {
     ACTIVE = "active",
-    CANCELED = "canceled",
+    CANCELLED = "cancelled"
+
 }
+export const addAppointment = async(req: Request, res: Response) => {
 
-const addAppointment = async (req: Request, res: Response) => {
-    const { date, time, userId } = req.body;
-    const [day, month, year] = date.split("-").map(Number);
-    const formatedDate = new Date(year, month - 1, day);
-     if(isNaN(formatedDate.getTime())) {
-        res.status(400).json({ error: "invalid date" });
+    const {date, time, userId, tipo, vehicleId} = req.body;
+    
+    const [year, month, day] = date.split('-').map(Number);
+    
+    const formattedDate = new Date(year, month - 1, day);
+
+    if (isNaN(formattedDate.getTime())) {
+        res.status(400).json({ message: "Fecha inválida" });
+        return;
+    }
+     const [hours, minutes] = time.split(':').map(Number);
+    
+    if (isNaN(hours) || isNaN(minutes)) {
+        res.status(400).json({ message: "Hora inválida" });
         return;
     }
 
-    const [hours, minutes] = time.split(":").map(Number);
-    if(isNaN(hours) || isNaN(minutes)) {
-        res.status(400).json({ error: "invalid time" });
-        return;
+    formattedDate.setHours(hours, minutes);
+
+    if (!userId) {
+     res.status(400).json({ message: "Usuario no encontrado" });
+     return;
     }
-
-    formatedDate.setHours(hours, minutes);
-
-    if(!userId) {
-        res.status(400).json({ error: "userId is required" });
-        return;
-    }
-
     const userRepository = AppDataSource.getRepository(User);
-    const fundUser = await userRepository.findOneBy({ id: userId });
-    if(!fundUser) {
-        res.status(404).json({ error: "user not found" });
+    const foundUser = await userRepository.findOneBy({ id: userId });
+
+    if (!foundUser) {
+        res.status(400).json({ message: "Usuario no encontrado" });
         return;
     }
-     const newAppointmentData: IAppointmentDto = {
-        date: formatedDate,
-        time: time,
-        userId: userId,
-        status: status.ACTIVE
+
+    const appointmentData: IAppointmentDto = {
+        date: formattedDate,
+        time: time, 
+        status: status.ACTIVE,
+        userId: userId
     };
-
-    const newAppointment = await createNewAppointmentService(newAppointmentData);
-    res.status(201).json(newAppointment)
-
+    const newAppointment = await crearNewAppointmentService(appointmentData);
+    const sendMenssage = sendEmail(foundUser.name, foundUser.email, `Hola ${foundUser.name} se agendo un turno a nuestro taller para el dia ${date} a las ${time},
+         gracias por preferirnos. Por favor recuerda que en caso de no asisitir podrás cancelar el turno hasta 48 horas antes al turno.`);
+   return res.status(201).json(newAppointment);
 }
 
-const cancellAppointment = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const cancellAppointment = await changeStatusMyAppointmentService(+id);
-    res.status(200).json(cancellAppointment)
-}
-
-
-export const appointmentControllers = {
-    getAppointments: catchAsync(getAppointments),
-    myAppointment: catchAsync404(myAppointment),
-    addAppointment: catchAsync(addAppointment),
-    cancellAppointment: catchAsync404(cancellAppointment)
+export const cancellApointment = async(req: Request, res: Response) => {
+    const {id} = req.params;
+    const cancell = await changeStatusMyAppointmentService(+id);
+   return res.status(200).json({ message: cancell })
 }

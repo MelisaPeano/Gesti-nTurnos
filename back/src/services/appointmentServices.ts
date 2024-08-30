@@ -1,50 +1,69 @@
 import IAppointmentDto from "../dto/IAppointmentDto";
-import { AppDataSource } from "../config/data-source";
-import { User } from "../entities/user";
 import { Appointment } from "../entities/appointments";
+import { AppDataSource } from "../config/data-source";
+import { User } from "../entities/User";
 
-export const crearNewAppointment = async (appointment: IAppointmentDto): Promise<Appointment> => {
+
+
+export const crearNewAppointmentService =  async (data: IAppointmentDto): Promise<Appointment> => {
     const appointmentRepository = AppDataSource.getRepository(Appointment);
-    const userRepository = AppDataSource.getRepository(User);
-    const userId = typeof appointment.userId === "string" ? parseInt(appointment.userId, 10) : appointment.userId;
-    const user = await userRepository.findOneBy({ id: userId });
-    if(!user) {
-        throw new Error("user not found");
+    const nuevoUser = AppDataSource.getRepository(User);
+    const userId = typeof data.userId === 'string' ? parseInt(data.userId, 10) : data.userId;
+    const user = await nuevoUser.findOneBy({ id: userId });
+    if (!user) {
+        throw new Error('Usuario no encontrado');
     }
+
     const newAppointment = appointmentRepository.create({
-        ...appointment,
+        ...data,
         user
-    })
+    });
+   
 
     await appointmentRepository.save(newAppointment);
-    return newAppointment
+
+    return newAppointment; 
 }
 
-export const appointmentScheduleService = async (appointments: IAppointmentDto): Promise<Appointment[]> => {
-    const appointment = await AppDataSource.getRepository(Appointment).find();
-    return appointment;
+export const appointmentsScheduleService = async (): Promise<Appointment[]> => {
+    const appointments = await AppDataSource.getRepository(Appointment).find();
+    return appointments
 }
 
-export const myAppointmentService = async (userId: number): Promise<Appointment[]> => {
-    const consultation = await AppDataSource.getRepository(Appointment)
-     let myAppoint = await consultation.find({
-        where: { user: { id: userId } },
-        relations: ["user"],
-     })   
-     if (!myAppoint) {
-        throw new Error("user not found") 
-     }
-     return myAppoint;
-}   
-      
+export const myAppointmentService = async (userId: number): Promise<Appointment> => {
+    const consultation = AppDataSource.getRepository(Appointment)
+    const myAppoint = await consultation.findOne({where: {id: userId}, relations: ['user']})
+    if (!myAppoint) {
+        throw new Error(`Cita con ID ${userId} no encontrada`);
+    } 
+    return myAppoint;
+}
 
-const changeStatusAppointmentService = async (id: number): Promise<string | undefined> => {
-    const appointmentRepository = AppDataSource.getRepository(Appointment);
-    const appointment = await appointmentRepository.findOneBy({ id });
-    if (!appointment) {
-        throw new Error("appointment not found");
+
+export const changeStatusMyAppointmentService = async (id: number): Promise<string | undefined> => {
+    const consultation = AppDataSource.getRepository(Appointment)
+    const myAppoint = await consultation.findOne({
+        where: { id },
+        relations: ['user'] 
+    });
+    if (!myAppoint) {
+        throw new Error(`Cita con ID ${id} no encontrada`);
     }
-    appointment.status = "canceled";
-    await appointmentRepository.save(appointment);
-    return appointment.status
+    if(myAppoint.status === "cancelled"){
+        return (`su cita esta cancelada`)
+    }
+    const appointmentDate = new Date(myAppoint.date);
+    const currentDate = new Date();
+    const diffInMs = appointmentDate.getTime() - currentDate.getTime();
+    const diffInHours = diffInMs / (1000 * 60 * 60);
+    
+    if (diffInHours <= 48) {
+        myAppoint.status = "active";
+        await consultation.save(myAppoint);
+        return "Su cita no se puede cancelar";
+    }
+    
+    myAppoint.status = "cancelled";
+    await consultation.save(myAppoint);
+    return "Su cita ha sido cancelada";
 }

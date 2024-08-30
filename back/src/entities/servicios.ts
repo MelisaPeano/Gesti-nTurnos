@@ -1,26 +1,27 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, OneToOne } from "typeorm";
 import { Vehicle } from "./vehicle";
 
 
-enum servicioTipo {
-  optionOne = "revisión, alienado, balanceado, cambio de aceite",
-  optionTwo = "Tren delantero, arreglos de alineado",
-  optionThree = "Servicios de gomeria",
-  optionFour = "Servicios de administracion",
 
+export enum ServicioTipo {
+    OptionOne = "revisión, alineado, balancado, cambio de aceite",
+    OptionTwo = "tren delantero, arreglos de alineado",
+    OptionThree = "servicios de gomeria",
+    OptionFord = "administrativo",
+    OptionDefault = ""
 }
-
 @Entity()
+
 export class Servicio {
-  @PrimaryGeneratedColumn()
-  id: number
+    @PrimaryGeneratedColumn()
+    id: number
 
-  @Column({
-    type: "enum",
-    enum: servicioTipo,
-  })
-  tipo: servicioTipo
+    @Column({
+        type: "enum",
+        enum: ServicioTipo
+    })
+    tipo: ServicioTipo;
 
-  @OneToOne(() => Vehicle, (vehicle) => vehicle.servicio)
-  vehicle: Vehicle
+   @OneToOne(() => Vehicle, (vehicle) => vehicle.servicio)
+   vehicle: Vehicle;
 }

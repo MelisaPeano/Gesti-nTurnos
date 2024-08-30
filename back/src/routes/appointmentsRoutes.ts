@@ -1,12 +1,16 @@
-// recorda imoportar en el server
 import { Router } from "express";
-import { appointmentControllers } from "../controllers/appointmentsControllers";
+import { getAppointments, myAppointment, addAppointment, cancellApointment} from "../controllers/appointmentsControllers";
+import { catchAsync, catchAsync404 } from "../utils/catchAsync";
+import autenticacionAppointment from "../middlewares/addAppointment";
 
-const appointmentsRouter = Router();
+const appointmentRoutes= Router();
 
-appointmentsRouter.get("/appointments", appointmentControllers.getAppointments);
-appointmentsRouter.get("/appointments/:id", appointmentControllers.myAppointment);
-appointmentsRouter.post("/appointment/shedule", appointmentControllers.addAppointment);
-appointmentsRouter.put("/appointments/cancel/:id", appointmentControllers.cancellAppointment);
+appointmentRoutes.get("/", catchAsync404(getAppointments));
 
-export default appointmentsRouter;
+appointmentRoutes.get("/:id", catchAsync404(myAppointment));
+
+appointmentRoutes.post("/schedule",autenticacionAppointment,catchAsync(addAppointment));
+
+appointmentRoutes.put("/cancel/:id", catchAsync404(cancellApointment));
+
+export default appointmentRoutes;

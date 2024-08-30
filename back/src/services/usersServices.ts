@@ -1,78 +1,61 @@
-import IUsers from "../interfaces/IUsers";
-import IUserDto from "../dto/userDto";
+import IUserDto from "../dto/UserDto";
 import { AppDataSource } from "../config/data-source";
-import { Vehicle } from "../entities/vehicle";
+import { UserRepository } from "../repositories/UserRepository";
+import { User } from "../entities/User";
 import { createCredentials } from "./credentialsServices";
-import { User } from "../entities/user";
-import { getVehiclesService } from "./vehiclsServer";
-
 
 export const createUserService = async (userData: IUserDto): Promise<User> => {
-  const {name, email, birthdate, dni, password, username, vehicls} = userData;
-  const userRepository = AppDataSource.getRepository(User);
-  const formatedBirthdate = new Date(birthdate);
-  if(isNaN(formatedBirthdate.getTime())) {
-    throw new Error("invalid birthdate");
-  }
-  const vehicle = await getVehiclesService(vehicls);
-  const newUser = userRepository.create({
+  const {name, email, birthdate, nDni, password, username} = userData;
+   const userRepository = AppDataSource.getRepository(User);
+
+  const formattedBirthdate = new Date(birthdate);
+    
+    if (isNaN(formattedBirthdate.getTime())) {
+      throw new Error("Fecha de nacimiento inválida");
+    }
+    const newUser = userRepository.create({
       name,
       email,
-      birthdate: formatedBirthdate,
-      dni,
+      birthdate: formattedBirthdate,
+      nDni,
       vehicles: [],
-      appointment: [],
+      appointment: []
   });
-  newUser.vehicles.push(vehicle);
   const usuario = await userRepository.save(newUser);
+
   await createCredentials({
-    id: usuario.id,
+    userId: usuario.id,
     username,
-    password
-  })
+    password,
+  });
+
   return usuario;
 };
 
 export const getUserService = async (): Promise<User[]> => {
-    const users = await AppDataSource.getRepository(User).find();
-    return users
+   const users = await UserRepository.find();
+   return users;
 }
+
+
 export const obtenerUserService = async (id: number): Promise<User | undefined> => {
-    const userRepository = AppDataSource.getRepository(User);
-    const user = await userRepository.findOne({ 
-        where: {
-            id
-        },
-        relations: {
-            appointment: true,
-            vehicles: true
-        }
-    });
+  const users = AppDataSource.getRepository(User);
+    const user = await users.findOne({
+     where: { id: id },
+    relations: {appointment: true , vehicles: true}
+  });
     if (!user) {
-        throw new Error("user not found");
-    }
-    return user;
-
+      throw new Error('User not found');
+     }
+     return user;
 }
-
-export const UserIdService = async (id: number): Promise<number> => {
-    const userRepository = AppDataSource.getRepository(User);
-    const user= await userRepository.findOne({ 
-        where: {
-            id
-        }
-       
-    });
-    if(!user) {
-        throw new Error("user not found");
-    }
-    return user?.id;
-}
-export const deleteUserService = async (id: number): Promise<void> => {
-    const userRepository = AppDataSource.getRepository(User);
-    const user = await userRepository.findOneBy({ id });
-    if (!user) {
-        throw new Error("user not found");
-    }
-    await userRepository.remove(user);
+   
+export const UserIdService = async (id: number): Promise<number>=> {
+   const users = AppDataSource.getRepository(User);
+   const user = await users.findOne({ where: { id } });
+       if (!user) {
+         throw new Error('User not found');
+     }
+     return user.id;
+   
 }

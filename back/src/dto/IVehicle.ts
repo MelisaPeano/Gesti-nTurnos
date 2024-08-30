@@ -1,9 +1,8 @@
-
-
-interface IVehicleDto {
+export interface IVehicleDto {
+    year: number;
+    brand: string;
+    color: string;
+    model: string;
     userId: number
-    marca: string
-    year: number
+    servicio: []
 }
-
-export default IVehicleDto

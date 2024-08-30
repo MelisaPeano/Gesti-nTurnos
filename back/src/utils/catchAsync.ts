@@ -1,31 +1,33 @@
-import { error } from "console";
-import { NextFunction, Request, Response } from "express";
+// Prácticando funciones de orden superior ;)
+import { Request, Response, NextFunction } from "express";
 
-type TController = (req: Request, res: Response, next:NextFunction) => Promise<void>;
+type TController = (req: Request, res: Response, next: NextFunction) => Promise<Response | undefined>;
 
-export const catchAsync = (fn: TController) => {
-    return (req: Request, res: Response, next:NextFunction) => {
-        fn(req, res, next).catch((error) => {
-            if (error instanceof Error) {
-                res.status(400).json({ error: error.message })
+export const catchAsync = (controller: TController) => {
+    return (req:Request, res:Response, next:NextFunction) => {
+        controller(req, res, next).catch((err) => {
+            if(err instanceof Error ){
+                res.status(400).json({
+                    status: 'fail',
+                    message: err.message
+                });
             } else {
-                next(error);
+               return next(err);
             }
-        })
-    } 
+        });
+    };
 }
-
-export const catchAsync404 = (fn: TController) => {
-    return (req: Request, res: Response, next:NextFunction) => {
-        fn(req, res, next).catch((error) => {
-            if (error instanceof Error) {
-                res.status(404).json({ error: error.message })
+export const catchAsync404 = (controller: TController) => {
+    return (req:Request, res:Response, next:NextFunction) => {
+        controller(req, res, next).catch((err) => {
+            if(err instanceof Error ){
+                res.status(404).json({
+                    status: 'fail',
+                    message: err.message
+                });
             } else {
-                next(error);
+                return next(err);
             }
-        })
-    } 
+        });
+    };
 }
-
-
-    
