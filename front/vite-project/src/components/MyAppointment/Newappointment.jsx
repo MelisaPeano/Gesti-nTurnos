@@ -4,11 +4,12 @@ import { useState } from "react";
 import Formulario from "../Register/Formulario";
 import { useDispatch, useSelector } from "react-redux";
 import { filterUser } from "../../redux/reducer";
-import validateNewAppointment from "./validateNewAppoinment";
+import validateNewAppointment from "./validateNewAppointment";
 const AgendarAppoinmtent = () => {
    
     const [success, setSuccess] = useState(false);
     const [err, setErrors] = useState("")
+    console.log(err)
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user?.user.payload.user.id);
     console.log(user)
@@ -47,7 +48,7 @@ const AgendarAppoinmtent = () => {
                         })
                 }}
             >
-                {({ setFieldValue, errors }) => (
+                {({ errors }) => (
                     <Formulario>
                         <Form>
                             <label htmlFor="date">Fecha</label>

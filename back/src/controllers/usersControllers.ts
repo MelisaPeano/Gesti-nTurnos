@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { createUserService, getUserService, obtenerUserService } from "../services/userServices";
-import { User } from "../entities/User";
+import { createUserService, getUserService, obtenerUserService } from "../services/usersServices";
+import { User } from "../entities/user";
 import { checkcredentials } from "../services/credentialsServices";
 import sendEmail from "../utils/sendEmail";
 import path from "path";

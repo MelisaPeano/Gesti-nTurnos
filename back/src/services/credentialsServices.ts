@@ -1,7 +1,7 @@
 import { AppDataSource } from "../config/data-source";
 import ICredentialDto from "../dto/ICredentialsDto";
-import { Credential } from "../entities/credentials";
-import { User } from "../entities/User";
+import { Credential } from "../entities/Credentials";
+import { User } from "../entities/user";
 
 
 

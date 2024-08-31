@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import AppoinmentUser from "./AppoinmentUser";
+import AppoinmentUser from "./AppointmentUser";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { filterUser } from "../../redux/reducer";
 import AppointmentNone from "./AppointmentNone";
-import DetailStyle from "./DetailStyles";
+import DetailStyle from "./ DetailStyles"
 import { useCancelAppoinmentMutation } from "../../redux/appointmentReducer";
+
 const DetailAppoinment = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ const DetailAppoinment = () => {
     const [visibleAppointments, setVisibleAppointments] = useState(5);
     const [error, setError] = useState(null);
     const user = useSelector((state) => state.user?.user?.payload?.user?.id)
-    const [cancelAppointment, { isLoading, isSuccess, isError }] = useCancelAppoinmentMutation();
+    const [cancelAppointment] = useCancelAppoinmentMutation();
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
@@ -22,26 +23,35 @@ const DetailAppoinment = () => {
                     const response = await axios.get(`http://localhost:3000/users/${user}`)
                     if (response.data && Array.isArray(response.data.detail.appointment)) {
                         console.log(response.data)
+
                         const sortedAppointments = response.data.detail.appointment.sort((a, b) => {
                             if (a.status === "active" && b.status !== "active") return -1;
                             if (a.status !== "active" && b.status === "active") return 1;
                             return 0;
                         });
+
                         setAppointmentStatus(sortedAppointments);
                         dispatch(filterUser({ type: 'APPOINTMENT', appointment: sortedAppointments }));
-                        dispatch(filterAppoinment({ appointment: sortedAppointments }));
                     }
                 }
+
+
             } catch (error) {
-                setError('Error al cargar los turnos.')
+
+                setError(error, 'Error al cargar los turnos.')
             }
         }
         fetchAppointments();
+
     }, [dispatch, navigate, user])
+
+
     const loadMoreAppointments = () => {
         setVisibleAppointments((prevVisible) => prevVisible + 5);
     };
+
     const handleCancel = async (id) => {
+
         try {
             const appointment = appointmentStatus.find(appointment => appointment.id === id);
             if (!appointment) {
@@ -54,8 +64,11 @@ const DetailAppoinment = () => {
             setAppointmentStatus(prevState =>
                 prevState.map(appointment =>
                     appointment.id === id ? { ...appointment, status: 'cancelled' } : appointment
+
                 )
+
             );
+
         } catch (error) {
             console.error('Failed to cancel appointment:', error);
         }
@@ -74,6 +87,7 @@ const DetailAppoinment = () => {
         const formattedHour = hourInt % 12 || 12;
         return `${String(formattedHour).padStart(2, '0')}:${minute} ${ampm}`;
     };
+
     return (
         <div>
             {appointmentStatus.status === 'loading' && <p>Cargando citas...</p>}
@@ -89,6 +103,7 @@ const DetailAppoinment = () => {
                                 time={formatTime(appointment.time)}
                                 status={appointment.status}
                                 handleCancel={() => handleCancel(appointment.id)}
+
                             />
                         </li>
                     ))}
@@ -100,9 +115,20 @@ const DetailAppoinment = () => {
                         Cargar más turnos
                     </button>
                 )}
+
                 <button onClick={() => navigate("/appointments/schedule")}>Agendar Turno</button>
             </DetailStyle>
+
         </div>
     );
+
 }
+
+
+
+
+
+
+
+
 export default DetailAppoinment;

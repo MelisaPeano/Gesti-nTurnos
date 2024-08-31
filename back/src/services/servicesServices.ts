@@ -1,4 +1,4 @@
-import { AppDataSource, newServicio, newVehicle } from "../config/data-source";
+import { AppDataSource } from "../config/data-source";
 import { IServicioDto } from "../dto/servicioDto";
 import { Servicio } from "../entities/servicios";
 import { ServicioTipo } from "../entities/servicios";

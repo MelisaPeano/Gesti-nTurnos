@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { appointmentsScheduleService, myAppointmentService, crearNewAppointmentService, changeStatusMyAppointmentService} from "../services/appointmentsServices";
-import IAppointmentDto from "../dto/appointmentsDto";
+import { appointmentsScheduleService, myAppointmentService, crearNewAppointmentService, changeStatusMyAppointmentService} from "../services/appointmentServices";
+import IAppointmentDto from "../dto/IAppointmentDto";
 import { AppDataSource } from "../config/data-source";
-import { User } from "../entities/User";
+import { User } from "../entities/user";
 import sendEmail from "../utils/sendEmail";
 
 

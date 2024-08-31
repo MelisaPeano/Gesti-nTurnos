@@ -1,4 +1,4 @@
-import { createVehicleService, getVehiclesService, deleteVehicleService} from "../services/vehiclServices";
+import { createVehicleService, getVehiclesService, deleteVehicleService} from "../services/vehiclsServer";
 import { Request, Response } from "express";
 
 

@@ -1,5 +1,5 @@
 import portada from "../../assets/portada.jpg"
-import HomeStyles from "./HomeStiles"
+import HomeStyles from "./HomeStyles";
 const HomeComponent = () => {
     return (
         <>

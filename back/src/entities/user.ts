@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn } from "typeorm";
 import { Appointment} from "./appointments";
-import { Credential } from "./credentials";
-import { Vehicle } from "./vehiculos";
+import { Credential } from "./Credentials";
+import { Vehicle } from "./vehicle";
 
 @Entity({
     name: "users"

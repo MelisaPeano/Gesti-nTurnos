@@ -1,33 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import AppStyle from "./AppStyles"
+import Home from "./components/views/HomePage"
+import { Route, Routes } from "react-router-dom"
+import MisTurnos from "./components/views/MisTurnosPage"
+import RegisterPage from "./components/views/RegisterPage"
+import LoginPage from "./components/views/LoginPage"
+import NavBar from "./components/NavBar/NavBar"
+import { Provider } from "react-redux"
+import  store  from "./redux/store"
+import Newappointment from "./components/MyAppointment/Newappointment"
+import ProfilePage from "./components/views/ProfilePage"
+import DetailPage from "./components/views/DetailPage"
 function App() {
-  const [count, setCount] = useState(0)
-
+ 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Provider store={store}>
+        <AppStyle>
+          <NavBar />
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/apointments" element={<MisTurnos />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/users/register" element={<RegisterPage />} />
+            <Route path="/users/:id" element={<DetailPage />} />
+            <Route path="/miProfile" element={<ProfilePage />} />
+            <Route path="/users/register" element={<RegisterPage />} />
+            <Route path="appointments/schedule" element={<Newappointment />} />
+          </Routes>
+        </AppStyle>
+      </Provider>
     </>
   )
 }

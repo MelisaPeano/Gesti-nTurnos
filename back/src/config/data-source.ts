@@ -1,8 +1,8 @@
 import { DataSource } from "typeorm";
-import {DATABASE, PASSWORD, USERNAME} from "./envs"
-import { User } from "../entities/User";
-import { Credential } from "../entities/credentials";
-import { Vehicle } from "../entities/vehiculos";
+import { USERNAME, PASSWORD, DATABASE } from "./envs";
+import { User } from "../entities/user";
+import { Credential } from "../entities/Credentials";
+import { Vehicle } from "../entities/vehicle";
 import { Appointment } from "../entities/appointments";
 import { Servicio } from "../entities/servicios";
 

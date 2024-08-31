@@ -1,7 +1,7 @@
 import IUserDto from "../dto/UserDto";
 import { AppDataSource } from "../config/data-source";
 import { UserRepository } from "../repositories/UserRepository";
-import { User } from "../entities/User";
+import { User } from "../entities/user";
 import { createCredentials } from "./credentialsServices";
 
 export const createUserService = async (userData: IUserDto): Promise<User> => {
