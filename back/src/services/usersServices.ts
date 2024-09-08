@@ -3,30 +3,40 @@ import { AppDataSource } from "../config/data-source";
 import { UserRepository } from "../repositories/UserRepository";
 import { User } from "../entities/user";
 import { createCredentials } from "./credentialsServices";
+import bcrypt from "bcryptjs";
+
 
 export const createUserService = async (userData: IUserDto): Promise<User> => {
-  const {name, email, birthdate, nDni, password, username} = userData;
+  const {name, email, birthdate, nDni, password, username, role} = userData;
    const userRepository = AppDataSource.getRepository(User);
-
-  const formattedBirthdate = new Date(birthdate);
+   const user = await userRepository.findOneBy({ email: email })
+    if(user){ 
+        throw new Error('User already exists');
+    }
+     
+   const formattedBirthdate = new Date(birthdate);
     
     if (isNaN(formattedBirthdate.getTime())) {
       throw new Error("Fecha de nacimiento inválida");
     }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hashSync(password, salt);
+
     const newUser = userRepository.create({
       name,
       email,
       birthdate: formattedBirthdate,
       nDni,
       vehicles: [],
-      appointment: []
+      appointment: [],
+      role
   });
   const usuario = await userRepository.save(newUser);
 
   await createCredentials({
     userId: usuario.id,
     username,
-    password,
+    password: hashedPassword,
   });
 
   return usuario;
@@ -47,6 +57,7 @@ export const obtenerUserService = async (id: number): Promise<User | undefined> 
     if (!user) {
       throw new Error('User not found');
      }
+
      return user;
 }
    

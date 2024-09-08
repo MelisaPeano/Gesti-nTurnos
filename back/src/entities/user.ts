@@ -44,4 +44,12 @@ export class User {
         nullable: true, 
     })
     profilePicturePath: string;
+
+    @Column({
+        type: "enum",
+        enum: ["admin", "user", "employee"],
+        default: "user",
+        
+    })
+    role: string
   }

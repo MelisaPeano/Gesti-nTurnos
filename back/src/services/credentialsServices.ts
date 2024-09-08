@@ -2,6 +2,7 @@ import { AppDataSource } from "../config/data-source";
 import ICredentialDto from "../dto/ICredentialsDto";
 import { Credential } from "../entities/Credentials";
 import { User } from "../entities/user";
+import bcrypt from "bcryptjs";
 
 
 
@@ -32,7 +33,11 @@ export const checkcredentials = async (credentialData: ICredentialDto):Promise<n
             where: { username: credentialData.username },
             relations: ['user']
         });
-        if(credential?.password === password) return credential.user.id;
+        if (credential?.password){
+            const isMatch = await bcrypt.compare(password, credential.password)
+            return credential.user.id;
+        }
+    
         else return 0;
     }
         
