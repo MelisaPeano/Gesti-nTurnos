@@ -2,9 +2,6 @@ import { Card } from "./MyAppointmentStyle";
 const AppoinmentUser = ({ date, time, status, handleCancel}) => {
     return (
         <>
-        <div>
-            <h1></h1>
-        </div>
         <Card>
         
             <h1>{date}</h1>

@@ -26,6 +26,7 @@ const NavContainer = styled.nav`
             color: #b95829;
             font-weigth: 700;
         }
+    
     }
   
     a{

@@ -44,7 +44,8 @@ const initialState = {
         birthdate: null,
         nDni: null,
         appointment: [],
-        profilePicturePath: null
+        profilePicturePath: null,
+        role: null
     },
     error: null,
     status: 'idle' 

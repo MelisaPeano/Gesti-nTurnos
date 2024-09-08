@@ -39,7 +39,10 @@ function NavBar() {
                 </div>
                 <Links className={cliked ? 'active' : ''}>
                     {!user ? (
+                        <>
                         <Link onClick={handleClick} to="/login">Iniciar Sesión</Link>
+                        <Link onClick={handleClick} to="/users/register">Regístrarse</Link>
+                        </>
                     ) : (
                         <>
                             <Link onClick={handleClick} to={`/users/${user.id}`}>Ver mis Turnos</Link>

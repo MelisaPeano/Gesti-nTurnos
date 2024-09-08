@@ -37,6 +37,7 @@ export const Card = styled.div`
         border-radius: 30px;
         border: 1px solid transparent;
         font-family: 'Poetsen One', sans-serif;
+        width: 10vh;
     }
     &:hover{
         background: #ce8a69;

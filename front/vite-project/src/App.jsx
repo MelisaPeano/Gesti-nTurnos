@@ -4,12 +4,13 @@ import { Route, Routes } from "react-router-dom"
 import MisTurnos from "./components/views/MisTurnosPage"
 import RegisterPage from "./components/views/RegisterPage"
 import LoginPage from "./components/views/LoginPage"
-import NavBar from "./components/NavBar/NavBar"
+import NavBar from "./components/Navbar/NavBar"
 import { Provider } from "react-redux"
 import  store  from "./redux/store"
 import Newappointment from "./components/MyAppointment/Newappointment"
 import ProfilePage from "./components/views/ProfilePage"
 import DetailPage from "./components/views/DetailPage"
+import Footer from "./components/Footer/Footer"
 function App() {
  
   return (
@@ -30,6 +31,7 @@ function App() {
           </Routes>
         </AppStyle>
       </Provider>
+      <Footer/>
     </>
   )
 }

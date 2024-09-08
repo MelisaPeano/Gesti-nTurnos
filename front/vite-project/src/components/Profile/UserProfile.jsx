@@ -1,14 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { uploadProfilePictureAction, fetchAppointments } from "../../redux/reducer";
+import { uploadProfilePictureAction} from "../../redux/reducer";
 import UserStyle from "./UserStyles";
 const UserProfile = () => {
   const dispatch = useDispatch();
   const [profilePicture, setProfilePicture] = useState(null);
   const [userDetail, setUserDetail] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
-  const profilePicturePath = useSelector((state) => state.user?.user?.payload?.user?.profilePicturePath);
   const user = useSelector((state) => state.user?.user?.payload?.user?.id)
   console.log(user)
   useEffect(() => {

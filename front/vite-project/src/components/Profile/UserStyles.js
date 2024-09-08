@@ -5,7 +5,6 @@ const UserStyle = styled.div`
     display: grid;
     text-align: center;
     justify-content: center;
-    background-color:  #9899a7;
    
     div {
         display: grid;

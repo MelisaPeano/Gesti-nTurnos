@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 
 const Formulario = styled.div`
+
     display: flex;
     text-align: center;
     justify-content: center;
@@ -10,6 +11,7 @@ const Formulario = styled.div`
     font-family: 'Poetsen One', sans-serif;
     font-size: 1.5rem;
     color: #333;
+    max-height: 600px;
     background: #333;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
     border-radius: 16px;
@@ -27,7 +29,7 @@ const Formulario = styled.div`
         width: 60vw;
         height: 5vh;
         margin: 10px;
-        padding: 10px;
+        padding-top: 10px;
         border-radius: 10px;
         border: none;
         outline: none;

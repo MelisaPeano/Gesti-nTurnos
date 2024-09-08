@@ -8,12 +8,9 @@ const HomeComponent = () => {
                     <img className="img" src={portada}></img>
                 </div>
                 <div className="text">
-                    <p>
-                        Bienvenido a AUTOFIX <br/>
-                        <br/>
-                        Tu mejor opción para el cuidado de tu auto.
-                    </p>
-                
+                    <h1> Bienvenido a AUTOFIX</h1>
+                    <p>La mejor opción para tu vehiculo</p>
+                    <button>Nuestros Servicios</button>
                 </div>
             </HomeStyles>
         </>

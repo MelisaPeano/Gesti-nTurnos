@@ -95,7 +95,7 @@ const DetailAppoinment = () => {
             {appointmentStatus.length === 0 ? (
                 <AppointmentNone />
             ) : (
-                <ul style={{ listStyle: 'none' }}>
+                <ul style={{ listStyle: 'none' , display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     {appointmentStatus.slice(0, visibleAppointments).map((appointment) => (
                         <li key={appointment.id}>
                             <AppoinmentUser
