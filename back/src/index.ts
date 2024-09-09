@@ -6,7 +6,5 @@ import { AppDataSource } from "./config/data-source";
 
 AppDataSource.initialize()
 .then(res => {
-    server.listen(PORT, () => {
-    console.log(`server listening on port ${PORT}`)
-    })
+    server.listen(PORT);
 })
