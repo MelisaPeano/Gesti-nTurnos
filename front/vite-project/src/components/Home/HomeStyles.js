@@ -78,6 +78,7 @@ button{
             font-size: 1rem;
             position: absolute;
             margin-top: .5rem;
+            margin-bottom: .2rem;
         }
         p {
             position: relative;
@@ -85,7 +86,7 @@ button{
             font-size: 1rem;
         }
         button{
-            font-size: .7rem;
+            font-size: .9rem;
             position: relative;
             margin-top: 0.2rem;
         }
@@ -113,16 +114,17 @@ button{
             font-size: 1rem;
             position: absolute;
             margin-top: .5rem;
+            margin-bottom: .5rem;
         }
         p {
             font-size: 1rem;
             margin-top: 1rem;
         }
         button{
-            font-size: .7rem;
+            font-size: .9rem;
             position: relative;
             margin-top: 0.2rem;
-            margin-bottom: .5rem;
+            margin-bottom: .2rem;
         }
     }
 

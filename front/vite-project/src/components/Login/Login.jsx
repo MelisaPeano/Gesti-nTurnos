@@ -5,7 +5,7 @@ import axios from "axios";
 import { useState } from "react";
 import validacionesLogin from "./validacionLogin";
 import { useDispatch} from "react-redux";
-import { setUser } from "../../redux/reducer";
+import { setUser, setToken } from "../../Redux/reducer";
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -23,9 +23,10 @@ const Login = () => {
          onSubmit={(values, {resetForm}) => {
             axios.post("http://localhost:3000/users/login", values)
                 .then((response)=>{
-                console.log(response.data.tdoBien)
+                console.log(response.data)
                 if(response.data.tdoBien){
                     dispatch(setUser(setUser(response.data.tdoBien)));
+                    dispatch(setToken(response.data.msg)); 
                     resetForm();
                     setFormEnviado(true);
                     setTimeout(()=>  setFormEnviado(false), 3000)

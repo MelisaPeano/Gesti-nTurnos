@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import AppoinmentUser from "./AppointmentUser";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { filterUser } from "../../redux/reducer";
+import { fetchAppointments, filterUser } from "../../Redux/reducer";
 import AppointmentNone from "./AppointmentNone";
 import DetailStyle from "./ DetailStyles"
 import { useCancelAppoinmentMutation } from "../../redux/appointmentReducer";
@@ -11,39 +10,30 @@ import { useCancelAppoinmentMutation } from "../../redux/appointmentReducer";
 const DetailAppoinment = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const token = useSelector((state) => state.user.token);
     const [appointmentStatus, setAppointmentStatus] = useState([]);
     const [visibleAppointments, setVisibleAppointments] = useState(5);
     const [error, setError] = useState(null);
-    const user = useSelector((state) => state.user?.user?.payload?.user?.id)
+    const user = useSelector((state) => state.user.user.payload.user.id)
     const [cancelAppointment] = useCancelAppoinmentMutation();
     useEffect(() => {
-        const fetchAppointments = async () => {
+        const fetchOneAppointments = async () => {
             try {
                 if (user) {
-                    const response = await axios.get(`http://localhost:3000/users/${user}`)
-                    if (response.data && Array.isArray(response.data.detail.appointment)) {
-                        console.log(response.data)
-
-                        const sortedAppointments = response.data.detail.appointment.sort((a, b) => {
-                            if (a.status === "active" && b.status !== "active") return -1;
-                            if (a.status !== "active" && b.status === "active") return 1;
-                            return 0;
-                        });
-
-                        setAppointmentStatus(sortedAppointments);
-                        dispatch(filterUser({ type: 'APPOINTMENT', appointment: sortedAppointments }));
-                    }
+                    const result = await (dispatch(fetchAppointments(user, token)))
+                    if(fetchAppointments.fulfilled.match(result)){ // verfifico si se completo correctamente
+                        setAppointmentStatus(result.payload);
+                        dispatch(filterUser({ type: 'APPOINTMENT', appointment: result.payload }));
                 }
-
-
-            } catch (error) {
+            } 
+        }catch (error) {
 
                 setError(error, 'Error al cargar los turnos.')
             }
         }
-        fetchAppointments();
+        fetchOneAppointments();
 
-    }, [dispatch, navigate, user])
+    }, [dispatch, navigate, user, token])
 
 
     const loadMoreAppointments = () => {

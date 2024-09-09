@@ -1,52 +1,51 @@
 import styled from "styled-components";
 const UserStyle = styled.div`
-    margin: 0;
-    padding: 0;
     display: grid;
-    text-align: center;
-    justify-content: center;
-   
-    div {
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        gap: 15px;
-        justify-items: center;
-        align-items: center;
-        margin: 20px;
-        outline: none;
-    }
-    img{
-        margin: 10px;;
-        grid-column: span 12; 
-        justify-self: end;
-        align-items: center;
-        width: 20vw;
-        height: 20vh;
-        border-radius: 30%;
-        margin: 2rem 3.5rem 0rem 3.5rem;
-        object-fit: cover;
-    }
-    h1{
-       
-        grid-column: span 6;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    align-items: center;
+    margin: 20px;
+    outline: none;
+
+    .title{
+        text-align: center;
         margin: 0.4rem 0.4rem;   
         color:  #b95829;   
         font-family: 'Poetsen One', sans-serif;
-        font-size: 1rem;
-        justify-items: end;
-        align-items: start; 
+        font-size: 1.5rem;
+    }
+    
+    img{
+        width: 15vw;
+        height: 25vh;
+        border-radius: 30%;
+        border: 5px solid #b95829;
+        margin: 2rem 3.5rem 0rem 3.5rem;
+        object-fit: cover;
+    }
+    span {
+        font-weight: bold;
+        color: #333;
+    }
+    h1{
+       
+       text-align: start;
+        margin: 0.4rem 0.4rem;   
+        color:  #b95829;   
+        font-family: 'Poetsen One', sans-serif;
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
     }
     p{
         grid-column: span 6;
         align-self: center; 
+        padding: 0.5rem;
         margin: 0.4rem 0.4rem;   
         color:  #b95829;   
         font-family: 'Poetsen One', sans-serif;
         font-size: 1rem;
     }
     form{
-        grid-column: span 12;
-        margin: 0.2rem 0.2rem 0.2rem 0.2rem;
         justify-items: center;
         align-items: center;
     }
@@ -64,6 +63,38 @@ const UserStyle = styled.div`
         color: white;
         cursor: pointer;
     }
+        @media (max-width: 768px) {
+            .title{
+                font-size: 1.2rem;
+                text-align: left;
+            }
+           
+            img{
+                width: 20vw;
+                height: 20vh;
+                margin: 0.5rem;
+                justify-self: left;
+                margin-top : 0.5rem;
+            }
+            p{
+                font-size: 0.8rem;
+                margin: 0.2rem;
+                padding: 0.2rem;
+            }
+            button{
+                
+                font-size: 0.8rem;
+                width: 150px;
+                height: 20px;
+            }
+            .div{
+                text-align: center; 
+            }
+        }
+
+        
+    
+
     `
   
 export default UserStyle;

@@ -5,7 +5,7 @@ import validaciones from "./validaciones";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../redux/reducer";
+import { setUser } from "../../Redux/reducer";
 
 
 const RegisterComponent = () => {
@@ -16,7 +16,7 @@ const RegisterComponent = () => {
     return (
         <>
         {/* Estructura render-Prop Lo estamos pasando como funcion al formulario */}
-        <Formulario>
+        <Formulario style={{height:'65vh', marginTop:'2vh'}}>
         <Formik 
         initialValues={{
             name : '',

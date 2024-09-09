@@ -24,10 +24,11 @@ const Formulario = styled.div`
     margin: 10px;
     cursor: pointer;
 
+
     input {
         font-family: 'Poetsen One', sans-serif;
         width: 60vw;
-        height: 5vh;
+        height: 4vh;
         margin: 10px;
         padding-top: 10px;
         border-radius: 10px;

@@ -11,6 +11,8 @@ import Newappointment from "./components/MyAppointment/Newappointment"
 import ProfilePage from "./components/views/ProfilePage"
 import DetailPage from "./components/views/DetailPage"
 import Footer from "./components/Footer/Footer"
+import Services from "./components/sevices/services"
+import AllUsers from "./components/Users/AllUsers"
 function App() {
  
   return (
@@ -28,6 +30,8 @@ function App() {
             <Route path="/miProfile" element={<ProfilePage />} />
             <Route path="/users/register" element={<RegisterPage />} />
             <Route path="appointments/schedule" element={<Newappointment />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/users" element={<AllUsers/>} />
           </Routes>
         </AppStyle>
       </Provider>
