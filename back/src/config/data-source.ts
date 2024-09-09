@@ -7,6 +7,7 @@ import { Appointment } from "../entities/appointments";
 import { Servicio } from "../entities/servicios";
 
 export const AppDataSource = new DataSource({
+    url: process.env.DATABASE_URL,
     type: "postgres",
     host: "localhost",
     port: 5432,
